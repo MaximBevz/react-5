@@ -1,0 +1,14 @@
+.users-list-item {
+    max-width: 170px;
+    width: 100%;
+    margin: 10px;
+    border: 1px solid black;
+    text-align: center;
+    padding: 10px;
+}
+
+.users-list-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
