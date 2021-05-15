@@ -10,14 +10,10 @@ export default function SingleUser(props) {
     }, [id]);
 
     return (
-            <div className='user-card'>
-                {user ?
-                    <><
+            user && <div className='user-card'><
                         img src={user.avatar} alt='avatar'/>
                         <h4>{id}.{user.first_name} {user.last_name}</h4>
                         <p>{user.email}</p>
-                    </> : 'No info'
-                }
-            </div>
+                    </div>
     );
 }

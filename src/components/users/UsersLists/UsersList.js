@@ -1,23 +1,35 @@
-import {useState, useEffect} from 'react';
+import {useReducer, useEffect} from 'react';
 import User from "../../user/User";
 import './UsersList.css';
 import {Route} from "react-router-dom";
 import SingleUser from "../SingleUser/SingleUser";
 
+const reducer = (state, action) => {
+    switch(action.type) {
+        case 'SET_USERS' :
+            return {...state, users: action.payload};
+        case 'SET_PAGE' :
+            return {...state, page: action.payload};
+        default :
+            return state;
+    }
+}
+
 export default function UsersList(props) {
     let {match:{url}} = props;
-    let [users, setUsers] = useState([]);
-    let [page, setPage] = useState(1)
+
+    let [state, dispatch] = useReducer(reducer, {users: [], page: 1});
+    let {users, page} = state;
 
     useEffect( () => {
         fetch('https://reqres.in/api/users?page=' + page)
             .then(val => val.json())
             .then(usersList =>
-                setUsers(usersList.data));
+                dispatch({type:'SET_USERS', payload: usersList.data}));
     }, [page]);
 
-    const nextPage = () => setPage(page < 2 ? ++page : page);
-    const prevPage = () => setPage(page >= 1 ? --page : page);
+    const nextPage = () => dispatch({type:'SET_PAGE', payload:page < 2 ? ++page : page});
+    const prevPage = () => dispatch({type:'SET_PAGE', payload:page >= 1 ? --page : page});
 
     return (
         <div className='users'>
